@@ -5,12 +5,15 @@ Tiny project that tries to reproduce an issue found on Jackson Databind.
 
 For some reason Jackson is failing to bind objects that have constructors with parameters when used with JDK 9.
 
-There was a very similar issue ([393](https://github.com/FasterXML/jackson-core/issues/393)) regarding Lombok annotations where Jackson would raise the same exception it raises 
-in the cases presented here. 
+There was a very similar issue ([393](https://github.com/FasterXML/jackson-core/issues/393)) regarding Lombok 
+annotations where Jackson would raise the same exception it raises in the cases presented here. 
 
 At the aforementioned issue's discussions, someone suggested disabling the `INFER_CREATOR_FROM_CONSTRUCTOR_PROPERTIES` feature from the Mapper. 
 
-The given suggestion was applied here but the problem persists.  
+The given suggestion was applied here but the problem persists.
+
+The `@JsonCreator` annotation is also added on the cases with constructor arguments but the problem still persists 
+(with or without `@JsonCreator`).  
 
 There are four scenarios reproduced in this repository:
 
@@ -77,5 +80,3 @@ JVM:          9.0.4 (Oracle Corporation 9.0.4+11)
 OS:           Linux 4.13.0-32-generic amd64
 
 ```
-
-
