@@ -3,6 +3,43 @@ Tiny project that tries to reproduce an issue found on Jackson Databind.
 
 ## The issue
 
+For some reason Jackson is failing to bind objects that have constructors with parameters when used with JDK 9.
+
+There was a very similar issue ([393](https://github.com/FasterXML/jackson-core/issues/393)) regarding Lombok annotations where Jackson would raise the same exception it raises 
+in the cases presented here. 
+
+At the aforementioned issue's discussions, someone suggested disabling the `INFER_CREATOR_FROM_CONSTRUCTOR_PROPERTIES` feature from the Mapper. 
+
+The given suggestion was applied here but the problem persists.  
+
+There are four scenarios reproduced in this repository:
+
+__Pojos:__
+
+- A Pojo class with constructor arguments (__FAIL__)
+- A Pojo class with empty constructor (__PASS__)
+
+__Lombok generated constructors:__
+
+- A Lombok based class with constructor arguments (__FAIL__)
+- A Lombok based class with empty constructor (__PASS__)
+
+When running the tests, the following output is presented:
+
+```sh
+
+> Task :test
+
+ObjectMapperTest > lombok_all_args_fails FAILED
+    com.fasterxml.jackson.databind.exc.InvalidDefinitionException at ObjectMapperTest.java:46
+
+ObjectMapperTest > pojo_all_args_fails FAILED
+    com.fasterxml.jackson.databind.exc.InvalidDefinitionException at ObjectMapperTest.java:55
+
+4 tests completed, 2 failed
+
+``` 
+
 ## Reproducing
 
 ```sh
@@ -15,7 +52,9 @@ Tiny project that tries to reproduce an issue found on Jackson Databind.
 __JDK Version:__
 
 ```sh
+
 $ java -version
+
 java version "9.0.4"
 Java(TM) SE Runtime Environment (build 9.0.4+11)
 Java HotSpot(TM) 64-Bit Server VM (build 9.0.4+11, mixed mode)
@@ -24,6 +63,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 9.0.4+11, mixed mode)
 __Gradle version:__
 
 ```sh
+
 ------------------------------------------------------------
 Gradle 4.2.1
 ------------------------------------------------------------
