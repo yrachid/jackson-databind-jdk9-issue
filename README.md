@@ -8,12 +8,14 @@ For some reason Jackson is failing to bind objects that have constructors with p
 There was a very similar issue ([393](https://github.com/FasterXML/jackson-core/issues/393)) regarding Lombok 
 annotations where Jackson would raise the same exception it raises in the cases presented here. 
 
-At the aforementioned issue's discussions, someone suggested disabling the `INFER_CREATOR_FROM_CONSTRUCTOR_PROPERTIES` feature from the Mapper. 
+At the aforementioned issue's discussions, someone suggested disabling the `INFER_CREATOR_FROM_CONSTRUCTOR_PROPERTIES` feature from the
+Mapper.
 
 The given suggestion was applied here but the problem persists.
 
-The `@JsonCreator` annotation is also added on the cases with constructor arguments but the problem still persists 
-(with or without `@JsonCreator`).  
+The `@JsonCreator` annotation was also added (introduced at 3242f6dd9fcd7d020179d5d05cbe9d070db83fdc, it's also possible to reproduce the
+cases where the annotation is absent by reverting to a previous commit) on the cases with constructor arguments but the problem still
+persists (with or without `@JsonCreator`).
 
 There are four scenarios reproduced in this repository:
 
@@ -45,12 +47,31 @@ ObjectMapperTest > pojo_all_args_fails FAILED
 
 ## Reproducing
 
+Without Docker:
+
 ```sh
 ./gradlew test --info
 ```
 
+With Docker:
+
+Using OpenJDK 9.0.1
+
+```
+./reproduce-with-docker.sh
+```
+
 
 ## Information
+
+The problem was produced under the following circumstances:
+
+__Operating System:__
+
+```sh
+Linux Ubuntu 17.10 
+Kernel 4.13.0-32-generic
+```
 
 __JDK Version:__
 
@@ -80,3 +101,8 @@ JVM:          9.0.4 (Oracle Corporation 9.0.4+11)
 OS:           Linux 4.13.0-32-generic amd64
 
 ```
+
+__Jackson versions tested:__
+
+- 2.9.1
+- 2.9.4
