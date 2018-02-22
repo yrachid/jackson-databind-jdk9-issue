@@ -1,12 +1,11 @@
-public class Person {
+package pojo;
+
+public class PersonNoArgs {
 
     private String name;
     private Integer age;
 
-    public Person(String name, Integer age) {
-        this.name = name;
-        this.age = age;
-    }
+    public PersonNoArgs() {}
 
     public String getName() {
         return name;
