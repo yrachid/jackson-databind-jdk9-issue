@@ -1,6 +1,7 @@
 package pojo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PersonAllArgs {
 
@@ -8,7 +9,9 @@ public class PersonAllArgs {
     private final Integer age;
 
     @JsonCreator
-    public PersonAllArgs(String name, Integer age) {
+    public PersonAllArgs(
+            @JsonProperty("name") String name,
+            @JsonProperty("age") Integer age) {
         this.name = name;
         this.age = age;
     }
